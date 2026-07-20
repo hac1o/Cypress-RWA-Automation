@@ -1,0 +1,36 @@
+{
+  "name": "cypress-rwa-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@cypress/xpath": "^2.0.3",
+    "@testing-library/cypress": "^10.1.3",
+    "@types/node": "^26.1.1",
+    "allure-commandline": "^2.43.0",
+    "allure-cypress": "^3.10.2",
+    "cypress": "^15.18.1",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^6.4.3",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2",
+    "prettier": "^3.9.5",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-real-events": "^1.15.0",
+    "dayjs": "^1.11.21",
+    "dotenv": "^17.4.2"
+  }
+}

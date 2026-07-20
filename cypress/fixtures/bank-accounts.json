@@ -1,0 +1,22 @@
+{
+  "validAccount": {
+    "bankName": "Test Bank",
+    "routingNumber": "123456789",
+    "accountNumber": "987654321"
+  },
+  "invalidRouting": {
+    "bankName": "Bad Routing Bank",
+    "routingNumber": "12345",
+    "accountNumber": "987654321"
+  },
+  "invalidAccount": {
+    "bankName": "Bad Account Bank",
+    "routingNumber": "123456789",
+    "accountNumber": "abc123"
+  },
+  "edgeCases": {
+    "emptyBankName": "",
+    "routingNumberWithLetters": "12345abc9",
+    "accountNumberSpecialChars": "987-654-321"
+  }
+}

@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Cypress artifacts (DO NOT commit these)
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Environment variables
+.env
+.env.local
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

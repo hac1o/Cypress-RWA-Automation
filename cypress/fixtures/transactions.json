@@ -1,0 +1,38 @@
+{
+  "validPayment": {
+    "recipient": "Devon",
+    "amount": "50",
+    "description": "Dinner",
+    "expectedPayload": {
+      "amount": 50,
+      "description": "Dinner"
+    }
+  },
+  "invalidPayments": {
+    "emptyAmount": {
+      "recipient": "Devon",
+      "amount": "",
+      "description": "Test"
+    },
+    "negativeAmount": {
+      "recipient": "Devon",
+      "amount": "-10",
+      "description": "Test"
+    },
+    "zeroAmount": {
+      "recipient": "Devon",
+      "amount": "0",
+      "description": "Test"
+    },
+    "lettersInAmount": {
+      "recipient": "Devon",
+      "amount": "abc",
+      "description": "Test"
+    },
+    "emptyDescription": {
+      "recipient": "Devon",
+      "amount": "50",
+      "description": ""
+    }
+  }
+}
