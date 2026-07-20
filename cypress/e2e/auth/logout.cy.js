@@ -6,10 +6,7 @@ describe('Authentication: Logout', () => {
   it('should successfully logout and clear session', () => {
     cy.logout();
 
-    // Assert URL redirect
     cy.url().should('include', '/signin');
-
-    // Assert localStorage cleared
     cy.window().its('localStorage.authState').should('be.undefined');
   });
 
@@ -17,7 +14,6 @@ describe('Authentication: Logout', () => {
     cy.logout();
     cy.go('back');
 
-    // Should still be on login page, not dashboard
     cy.url().should('include', '/signin');
     cy.get('[data-test=sidenav-username]').should('not.exist');
   });

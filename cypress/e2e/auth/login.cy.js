@@ -9,7 +9,6 @@ describe('Authentication: Login', () => {
       cy.get('[data-test=signin-password]').type(users.standardUser.password);
       cy.get('[data-test=signin-submit]').click();
 
-      // Using 'include' is safer than 'eq' in case of trailing slashes or query params
       cy.url().should('include', '/');
       cy.get('[data-test=sidenav-username]').should('contain', users.standardUser.username);
       cy.get('[data-test=nav-personal-tab]').should('be.visible');
@@ -39,17 +38,14 @@ describe('Authentication: Login', () => {
 
       cy.url().should('include', '/');
 
-      // Capture auth state
       cy.window().then((win) => {
         const authState = win.localStorage.getItem('authState');
         cy.wrap(authState).as('persistedAuth');
       });
 
-      // Simulate browser restart
       cy.clearCookies();
       cy.clearLocalStorage();
 
-      // Restore auth state (Pure JS: removed 'as string')
       cy.get('@persistedAuth').then((authState) => {
         cy.window().then((win) => {
           win.localStorage.setItem('authState', authState);
@@ -66,13 +62,11 @@ describe('Authentication: Login', () => {
       cy.get('[data-test=signin-username]').type(users.standardUser.username);
       cy.get('[data-test=signin-password]').type(users.standardUser.password);
       
-      // Explicitly uncheck to guarantee the state, making the test bulletproof
       cy.get('[data-test=signin-remember-me] input').uncheck({ force: true });
       
       cy.get('[data-test=signin-submit]').click();
       cy.url().should('include', '/');
 
-      // Simulate browser restart
       cy.clearCookies();
       cy.clearLocalStorage();
       cy.visit('/');

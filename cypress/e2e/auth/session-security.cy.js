@@ -4,7 +4,12 @@ describe('Session Security: Protected Routes', () => {
     cy.clearCookies();
   });
 
-  const protectedRoutes = ['/transactions', '/bankaccounts', '/notifications', '/user/settings'];
+  const protectedRoutes = [
+    '/transactions',
+    '/bankaccounts',
+    '/notifications',
+    '/user/settings',
+  ];
 
   protectedRoutes.forEach((route) => {
     it(`should redirect unauthenticated users from ${route} to /signin`, () => {
@@ -15,8 +20,6 @@ describe('Session Security: Protected Routes', () => {
 
   it('should display auth guard message on redirect', () => {
     cy.visit('/transactions');
-    // Note: If the RWA doesn't have a specific 'signin-title' data-test, 
-    // you can fallback to cy.contains('Sign in').should('be.visible')
     cy.get('[data-test=signin-title]')
       .should('be.visible')
       .and('contain', 'Sign in');

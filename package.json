@@ -1,12 +1,23 @@
 {
   "name": "cypress-rwa-automation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Cypress test automation for RWA",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress run",
+    "test:open": "cypress open",
+    "test:headed": "cypress run --headed",
+    "test:chrome": "cypress run --browser chrome",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json}\""
   },
-  "keywords": [],
+  "keywords": [
+    "cypress",
+    "e2e",
+    "testing",
+    "automation"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
