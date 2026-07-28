@@ -74,4 +74,6 @@ describe('Authentication: Login', () => {
       cy.url().should('include', '/signin');
     });
   });
+
+  it('should login via API and set correct authState in localStorage')
 });
