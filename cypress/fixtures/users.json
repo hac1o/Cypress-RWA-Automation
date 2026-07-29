@@ -1,7 +1,9 @@
 {
   "standardUser": {
     "username": "Heath93",
-    "password": "s3cret"
+    "password": "s3cret",
+    "firstName": "Ted",
+    "lastName": "Parisian"
   },
   "invalidUser": {
     "username": "FakeUser",
