@@ -26,6 +26,7 @@ jobs:
       - name: Copy Your Tests into the RWA App
         run: |
           cp -r cypress rwa-app/
+          rm -f rwa-app/cypress.config.ts
           cp cypress.config.js rwa-app/
 
       - name: Setup Node.js
@@ -36,7 +37,7 @@ jobs:
       - name: Install Yarn
         run: npm install -g yarn
 
-      # 4. Install dependencies for the RWA app (which includes Cypress)
+      # 4. Install dependencies for the RWA app
       - name: Install RWA Dependencies
         working-directory: ./rwa-app
         run: yarn install
@@ -54,7 +55,7 @@ jobs:
           CYPRESS_BASE_URL: http://localhost:3000
           CYPRESS_API_URL: http://localhost:3002
 
-      # 6. Upload artifacts for debugging (paths updated to match rwa-app folder)
+      # 6. Upload artifacts for debugging
       - name: Upload Screenshots on Failure
         uses: actions/upload-artifact@v4
         if: failure()
