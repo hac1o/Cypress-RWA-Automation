@@ -4,9 +4,6 @@ describe('Transactions: Send Payment', () => {
     cy.visit('/');
   });
 
-  // ============================================
-  // INTEGRATION TESTS (UI + API)
-  // ============================================
 
   it('should complete payment flow with correct API payload and success alert', () => {
     cy.intercept('POST', '/transactions').as('createTransaction');
@@ -35,7 +32,7 @@ describe('Transactions: Send Payment', () => {
           description: payment.expectedPayload.description,
         });
 
-        // Assert receiverId exists (we don't know the exact ID, just that it's there)
+        // Assert receiverId exists
         expect(interception.request.body).to.have.property('receiverId').that.is.a('string');
       });
 
@@ -88,16 +85,13 @@ describe('Transactions: Send Payment', () => {
     cy.fixture('transactions').then((data) => {
       const payment = data.validPayment;
 
-      // 1. Capture initial balance
       cy.get('[data-test=sidenav-user-balance]')
         .invoke('text')
         .then((initialBalanceText) => {
           const initialBalance = parseFloat(initialBalanceText.replace(/[^0-9.-]+/g, ''));
 
-          // Setup intercept
           cy.intercept('POST', '/transactions').as('createTransaction');
 
-          // 2. Complete payment
           cy.get('[data-test=nav-top-new-transaction]').click();
           cy.get('[data-test=user-list-search-input]').type(payment.recipient);
           cy.get('[data-test*=user-list-item]').first().click();
@@ -110,14 +104,12 @@ describe('Transactions: Send Payment', () => {
 
           cy.wait('@createTransaction');
 
-          // 3. Assert balance decreased
           cy.get('[data-test=sidenav-user-balance]')
             .invoke('text')
             .then((newBalanceText) => {
               const newBalance = parseFloat(newBalanceText.replace(/[^0-9.-]+/g, ''));
               const paymentAmount = parseFloat(payment.amount);
 
-              // Balance should decrease by the payment amount
               expect(newBalance).to.be.lessThan(initialBalance);
             });
         });
@@ -128,11 +120,9 @@ describe('Transactions: Send Payment', () => {
     cy.fixture('transactions').then((data) => {
       const payment = data.validPayment;
 
-      // Setup intercepts
       cy.intercept('POST', '/transactions').as('createTransaction');
       cy.intercept('GET', '/notifications*').as('getNotifications');
 
-      // Complete payment
       cy.get('[data-test=nav-top-new-transaction]').click();
       cy.get('[data-test=user-list-search-input]').type(payment.recipient);
       cy.get('[data-test*=user-list-item]').first().click();
@@ -142,17 +132,12 @@ describe('Transactions: Send Payment', () => {
 
       cy.wait('@createTransaction');
 
-      // Navigate to notifications to trigger the API call
       cy.get('[data-test=nav-top-notifications-link]').click();
       cy.wait('@getNotifications');
 
-      // Assert notification exists (the recipient should see a notification)
-      // Note: This test verifies the notification was created, but we're logged in as sender
-      // For a true recipient test, we'd need to login as the recipient
       cy.get('[data-test=notifications-list]').should('be.visible');
     });
   });
-
 
   it('should succeed with decimal amount', () => {
     const decimalAmount = '10.50';
@@ -189,9 +174,7 @@ describe('Transactions: Send Payment', () => {
     cy.get('[data-test=transaction-create-submit-payment]').click();
 
     cy.wait('@createTransaction').its('response.statusCode').should('eq', 200);
-              cy.get('[data-test="new-transaction-return-to-transactions"]')
-            .should('be.visible')
-            .click();
+    cy.get('[data-test="new-transaction-return-to-transactions"]').should('be.visible').click();
     cy.get('[data-test=alert-bar-success]').should('be.visible');
   });
 });
