@@ -1,6 +1,5 @@
 name: Cypress E2E Tests
 
-# Trigger the workflow on push to main/master, and on any Pull Request
 on:
   push:
     branches: [ main, master ]
@@ -12,8 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout Code
+      # 1. Checkout YOUR repository (contains the tests)
+      - name: Checkout Your Test Repository
         uses: actions/checkout@v4
+
+      # 2. Checkout the actual Real World App repository
+      - name: Checkout RWA Application
+        uses: actions/checkout@v4
+        with:
+          repository: cypress-io/cypress-realworld-app
+          path: rwa-app
+
+      # 3. Inject your tests and config into the RWA app folder
+      - name: Copy Your Tests into the RWA App
+        run: |
+          cp -r cypress rwa-app/
+          cp cypress.config.js rwa-app/
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -23,31 +36,31 @@ jobs:
       - name: Install Yarn
         run: npm install -g yarn
 
-      - name: Install Dependencies
+      # 4. Install dependencies for the RWA app (which includes Cypress)
+      - name: Install RWA Dependencies
+        working-directory: ./rwa-app
         run: yarn install
 
+      # 5. Start the app and run the tests
       - name: Run Cypress Tests
         uses: cypress-io/github-action@v6
         with:
-          # Start the RWA app (frontend + backend)
+          working-directory: ./rwa-app
           start: yarn dev
-          # Wait for the frontend to be ready before running tests
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
-          # Run tests in Chrome
           browser: chrome
         env:
-          # Pass your specific configuration to Cypress
           CYPRESS_BASE_URL: http://localhost:3000
           CYPRESS_API_URL: http://localhost:3002
 
-      # CRITICAL: Upload artifacts (screenshots/videos) if tests fail
+      # 6. Upload artifacts for debugging (paths updated to match rwa-app folder)
       - name: Upload Screenshots on Failure
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
+          path: rwa-app/cypress/screenshots
           retention-days: 7
 
       - name: Upload Videos
@@ -55,5 +68,5 @@ jobs:
         if: always()
         with:
           name: cypress-videos
-          path: cypress/videos
+          path: rwa-app/cypress/videos
           retention-days: 7
