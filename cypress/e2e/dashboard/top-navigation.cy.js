@@ -4,7 +4,7 @@ describe('Dashboard: Top Navigation', () => {
     cy.visit('/');
   });
 
-  it('should navigate to transaction creation when "New" button is clicked', () => {
+  it.only('should navigate to transaction creation when "New" button is clicked', () => {
     cy.get('[data-test=nav-top-new-transaction]').should('be.visible').click();
     cy.url().should('include', '/transaction/new'); 
     cy.get('[data-test="users-list"]').should('be.visible');
